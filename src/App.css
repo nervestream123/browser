@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.radix-themes:where([data-is-root-theme="true"]) {
+  min-height: auto !important;
+}
+
+#submit-button {
+  background-color: #5e13d2 !important;
+  cursor: pointer !important;
+}
+
+#table {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#table::-webkit-scrollbar {
+  display: none;
+}
+
+#log {
+  background: #23015d;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#log::-webkit-scrollbar {
+  display: none;
+}
