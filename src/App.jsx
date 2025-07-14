@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import './App.css'
-import { Flex, Box } from '@radix-ui/themes';
+import { Flex, Box, Text } from '@radix-ui/themes';
+
+const chatResponse = `GitHub is a web-based platform designed primarily for version control and collaborative software development. At its core, it uses Git, a distributed version control system created by Linus Torvalds, which allows developers to track changes in their code, collaborate with others, and manage multiple versions of their projects efficiently.`
 
 function App() {
   const webviewRef = useRef(null);
@@ -16,7 +18,7 @@ function App() {
     const webview = webviewRef.current;
     if (webview) {
       webview.addEventListener('dom-ready', () => {
-        // webview.openDevTools();
+        webview.openDevTools();
       });
 
       webview.addEventListener('did-navigate', (event) => {
@@ -102,8 +104,23 @@ function App() {
         </div>
 
         {/* Chat */}
-        <div id="chat" className="absolute top-30 bottom-20 right-10 w-[300px] bg-violet-500/50 rounded z-10">
-
+        <div id="chat" className="absolute top-30 bottom-20 right-10 w-[300px] rounded z-10">
+          <Flex direction="column" className="w-[100%] h-[100%] rounded">
+            <Flex className="w-[100%] h-[25px] rounded bg-violet-500/50">
+              <Text size="2" weight="bold" align="center" className="w-[100%] pt-[3px]">Chat</Text>
+            </Flex>
+            <Flex direction="column" className="w-[100%] grow bg-green-500 my-[15px] rounded bg-violet-500/50">
+              <Flex direction="row" className="w-[100%] pr-[10px] pt-[15px] justify-end!">
+                <Text align="left" className="w-[70%] p-[10px] text-[12px] font-medium bg-white/50 rounded">Can you summarize the info on this website?</Text>
+              </Flex>
+              <Flex direction="row" className="w-[100%] px-[10px] pt-[15px] justify-start!">
+                <Text align="left" className="w-[100%] p-[10px] text-[12px] text-[#3c005e] font-medium bg-white/75 rounded">{chatResponse}</Text>
+              </Flex>
+            </Flex>
+            <Flex className="w-[100%] h-[75px] rounded bg-violet-500/50">
+              <textarea id="chat-bar" className="flex-1 px-[10px] py-[5px] mx-[2px] w-[100%] h-[100%] rounded text-white text-[12px] font-medium">Can you help me find a repository that contains the most popular AI/ML libraries?</textarea>
+            </Flex>
+          </Flex>
         </div>
 
       </div>
