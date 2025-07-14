@@ -34,3 +34,9 @@
 #log::-webkit-scrollbar {
   display: none;
 }
+
+#address-bar:focus {
+  border-color: #5e13d2;     /* change border color on focus */
+  outline: none;             /* remove default browser outline */
+  box-shadow: 0 0 0 2px #5e13d2; /* optional subtle glow */
+}
