@@ -20,6 +20,6 @@ contextBridge.exposeInMainWorld('shell', {
   runCommand: (cmd) => ipcRenderer.invoke('run-bash', cmd)
 })
 
-contextBridge.exposeInMainWorld('electronAPI', {
-  setHeight: (height) => ipcRenderer.send('set-height', height)
-});
+// contextBridge.exposeInMainWorld('electronAPI', {
+//   loadURL: (url) => ipcRenderer.send('load-url', url),
+// });

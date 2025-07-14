@@ -1,17 +1,17 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
-const { exec } = require('child_process')
+const { app, BrowserWindow, BrowserView, ipcMain } = require('electron');
+const path = require('path');
 
-let mainWindow; // <-- define it globally
+let mainWindow;
+let view;
 
-function createWindow() {
+const createWindow = () => {
   mainWindow = new BrowserWindow({
-    height: 40,
-    width: 650,
+    height: 850,
+    width: 1400,
     titleBarStyle: 'hidden',
     titleBarOverlay: {
-      color: '#090017',
-      symbolColor: 'white'
+      color: 'white',
+      symbolColor: '#090017'
     },
     transparent: true,
     frame: false,
@@ -19,6 +19,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
+      webviewTag: true,
     }
   });
 
@@ -27,35 +28,33 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
   }
-}
-
-app.whenReady().then(() => {
-  createWindow();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-});
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
-});
-
-ipcMain.handle('run-bash', async (event, command) => {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(stderr || error.message);
-      } else {
-        resolve(stdout);
-      }
-    });
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
   });
-});
 
-ipcMain.on('set-height', (event, height) => {
-  if (mainWindow) {
-    const [winWidth] = mainWindow.getSize();
-    mainWindow.setSize(winWidth, height) + 30;
-  }
-});
+  // ipcMain.on('load-url', (event, url) => {
+  //   if (!view) {
+  //     view = new BrowserView();
+  //     mainWindow.setBrowserView(view);
+  //   }
+
+  //   view.setBounds({ x: 0, y: 100, width: mainWindow.getBounds().width, height: mainWindow.getBounds().height - 100 });
+  //   view.setAutoResize({ width: true, height: true });
+
+  //   view.webContents.loadURL(url);
+  //   view.webContents.openDevTools();
+  // });
+
+  // mainWindow.on('resize', () => {
+  //   if (view) {
+  //     view.setBounds({ x: 0, y: 100, width: mainWindow.getBounds().width, height: mainWindow.getBounds().height - 100 });
+  //   }
+  // });
+};
+
+app.whenReady().then(createWindow);

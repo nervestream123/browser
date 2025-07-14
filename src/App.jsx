@@ -1,35 +1,51 @@
-import { useEffect, useRef } from 'react';
-import { Flex } from '@radix-ui/themes'
+import { useRef, useState, useEffect } from 'react';
 import './App.css'
-import Tokens from './components/Tokens';
+
 
 function App() {
-  const containerRef = useRef(null);
+  const webviewRef = useRef(null);
+  const [inputUrl, setInputUrl] = useState('https://example.com');
+  const [webviewUrl, setWebviewUrl] = useState('https://example.com');
+
+  const loadURL = () => {
+    const formatted = /^https?:\/\//.test(inputUrl) ? inputUrl : `http://${inputUrl}`;
+    setWebviewUrl(formatted);
+  };
 
   useEffect(() => {
-    const resize = () => {
-      const height = containerRef.current?.scrollHeight ?? 0;
-      window.electronAPI?.setHeight(height + 30 + 2);
-    };
-
-    // Initial resize
-    resize();
-
-    // Observe DOM changes
-    const observer = new ResizeObserver(resize);
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    const webview = webviewRef.current;
+    if (webview) {
+      webview.addEventListener('dom-ready', () => {
+        webview.openDevTools();
+      });
     }
-
-    // Cleanup
-    return () => observer.disconnect();
+    // Load initial URL
+    setWebviewUrl(inputUrl);
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <Flex className="mx-[10px]" direction="column" align="center" ref={containerRef}>
-      <Tokens></Tokens>
-    </Flex>
+    <div className="flex flex-col w-screen h-screen">
+      {/* Webview */}
+      <div className="flex-1 relative">
+        <webview
+          ref={webviewRef}
+          src={webviewUrl}
+          style={{ width: '100%', height: '100%' }}
+          allowpopups="true"
+          webpreferences="nativeWindowOpen=true"
+        />
+        {/* Example overlay */}
+        <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded shadow z-10">
+          <input
+            className="flex-1 p-1 rounded text-black"
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && loadURL()}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 

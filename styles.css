@@ -2,7 +2,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background: #090017;
+  background: white;
   border: 1px solid #8c00ff3a;
 }
 
@@ -11,7 +11,7 @@ body {
   height: 30px;
   font-size:12px;
   font-weight: 800;
-  color: white;
+  color: #090017;
   display: flex;
   justify-content: center;
   align-items: center;
