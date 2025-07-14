@@ -40,3 +40,7 @@
   outline: none;             /* remove default browser outline */
   box-shadow: 0 0 0 2px #5e13d2; /* optional subtle glow */
 }
+
+#drag {
+  app-region: drag;
+}

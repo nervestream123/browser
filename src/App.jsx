@@ -16,7 +16,7 @@ function App() {
     const webview = webviewRef.current;
     if (webview) {
       webview.addEventListener('dom-ready', () => {
-        webview.openDevTools();
+        // webview.openDevTools();
       });
 
       webview.addEventListener('did-navigate', (event) => {
@@ -71,11 +71,14 @@ function App() {
             value={inputUrl}
             onChange={(e) => setInputUrl(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && loadURL()}
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="off"
+            spellCheck="false"
+            autoCorrect="off"
+            autoCapitalize="off"
           />
         </div>
+
+        {/* Drag */}
+        <img src="/drag.png" id="drag" className="absolute top-5 right-50 w-5 h-5 mt-[10px] mr-[5px] z-20 cursor-pointer!"></img>
 
         {/* Window */}
         <div className="absolute top-5 right-10 w-[100px] h-10 bg-violet-500/50 rounded z-10">
@@ -96,6 +99,11 @@ function App() {
               </Flex>
             </Box>
           </Flex>
+        </div>
+
+        {/* Chat */}
+        <div id="chat" className="absolute top-30 bottom-20 right-10 w-[300px] bg-violet-500/50 rounded z-10">
+
         </div>
 
       </div>
